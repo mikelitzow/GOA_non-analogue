@@ -30,16 +30,6 @@ library(broom)
 library(reshape2)
 ```
 
-# Data accession details.
-
-ERRST v4 data were obtained from https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.ersst.v4.html on 2 February 2017.
-
-NOAA-CIRES 20th Century Reanalysis v2c data were obtained from https://www.esrl.noaa.gov/psd/data/gridded/data.20thC_ReanV2c.html on 2 February 2017.
-
-The PDO index was obtained from http://research.jisao.washington.edu/pdo/PDO.latest.txt on 3 March 2018.
-
-The NPGO index was obtained from http://www.o3d.org/npgo/npgo.php on 14 February 2018.
-
 # Figs. 2 and S1 
 Nonstationary SLP variance.
 
