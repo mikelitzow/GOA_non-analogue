@@ -984,10 +984,19 @@ models <- arrange(models, AICc)
 
 models$dAICc <- models$AICc-min(models$AICc)
 
-pdf("Fig 4.pdf", 11.4/2.54, 7/2.54)
-mm <- matrix(1:2, 1,2)
+# and calculate residual autocorrelation for the best analogue model
+
+mod <- lm(catch ~ SST, data=data) 
+dwtest(resid(mod) ~ 1)
+```
+
+And plot Fig. 4
+
+```{r, echo=T}
+pdf("Fig 4.pdf", 1.5*11.4/2.54, 7/2.54)
+mm <- matrix(1:3, 1,3)
 layout(mm, height=c(1,1),width=c(1,1))
-par(las=2, mar=c(5.5,2,0,0.5), cex.axis= 0.8, tcl = 0.2, cex.lab=0.8, mgp=c(1.2,0.3,0), oma=c(0,0,2,0))
+par(las=2, mar=c(7,3,1,0.5), cex.axis= 1, tcl = 0.2, cex.lab=1, mgp=c(1.5,0.3,0), oma=c(0,0,2,0))
 cols <- c(rep("#56B4E9",4), rep("#D55E00", 4))
 models <- arrange(models, AICc)
 
@@ -996,19 +1005,26 @@ par(las=1)
 mtext("a", adj=0.11, line=-1, cex=1.2)
 text(seq(0.5,9.9,by=1.25), -3, 
      srt = 60, adj= 1, xpd = TRUE,
-     labels = models$expl, cex=0.65)
+     labels = models$expl, cex=0.9)
 
-par(mgp=c(1.3,0.3,0), las=2)
+par(mgp=c(1.7,0.3,0), las=2)
  barplot(models$res.ar, beside=T, col=cols,ylab="Residual AR(1)", cex.names=0.7)
 
 text(seq(0.5,9.9,by=1.25), -0.04, 
      srt = 60, adj= 1, xpd=T,
-     labels = models$expl, cex=0.65)
+     labels = models$expl, cex=0.9)
 
 par(las=1)
 mtext("b", adj=0.11, line=-1, cex=1.2)
-mtext("Non-analogue models", col="#56B4E9", adj=0.18, line=1, outer=T)
-mtext("Analogue models", col="#D55E00", adj=0.165, line=0.2, outer=T)
+mtext("Non-analogue models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
+mtext("Analogue models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
+
+par(mar=c(7,3,2,0.5))
+plot(data$year, resid(mod), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="")
+abline(h=0)
+abline(v=1988.5, lty=2)
+mtext("c", adj=0.11, line=-1.5, cex=1.2)
+
 dev.off()
 ```
 
