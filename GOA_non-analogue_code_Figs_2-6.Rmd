@@ -1006,8 +1006,8 @@ text(seq(0.5,9.9,by=1.25), -0.04,
 
 par(las=1)
 mtext("b", adj=0.11, line=-1, cex=1.2)
-mtext("Non-analogue models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
-mtext("Analogue models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
+mtext("Non-analog models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
+mtext("Analog models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
 
 par(mar=c(7,3,2,0.5))
 plot(data$year, resid(mod), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="")
@@ -1438,6 +1438,32 @@ abline(v=1988.5, lty=2)
 mtext(" d", line=-1.6, cex=1.4, adj=0)
 dev.off()
 
+# and a png version for the journal graphical abstract
+png("graphical abstract.png", 6,4, units="in", res=300)
+par(mgp=c(2,0.5,0), mar=c(4,4,1,1), las=1, cex.lab=1.2)
+
+plot(dat$sst[dat$year<1989], dat$pc1[dat$year<1989], ylim=range(dat$pc1),
+     xlim=range(dat$sst), pch=21, bg="#0072B2", xlab="Winter SST (°C)", ylab="Catch PC1", cex.lab=0.9)
+points(dat$sst[dat$year>1988], dat$pc1[dat$year>1988], pch=21, bg="#E69F00")
+lines(nd1$sst, pc.p1$fit, col="#0072B2")
+lines(nd2$sst, pc.p2$fit, col="#E69F00")
+
+# set polygon coordinates
+xpoly <- c(nd1$sst[1], nd1$sst, nd1$sst[100:1])
+ypoly <- c(pc.p1$fit[1]+1.96*pc.p1$se.fit[1], pc.p1$fit-1.96*pc.p1$se.fit,
+           pc.p1$fit[100:1]+1.96*pc.p1$se.fit[100:1])
+
+polygon(xpoly,ypoly, border=NA, col=alpha("#0072B2", 0.25))
+
+xpoly <- c(nd2$sst[1], nd2$sst, nd2$sst[100:1])
+ypoly <- c(pc.p2$fit[1]+1.96*pc.p2$se.fit[1], pc.p2$fit-1.96*pc.p2$se.fit,
+           pc.p2$fit[100:1]+1.96*pc.p2$se.fit[100:1])
+
+polygon(xpoly,ypoly, border=NA, col=alpha("#E69F00", 0.25))
+
+legend(5.7, -2.5, c("Before 1988/89", "After 1988/89"), 
+       text.col=c("#0072B2","#E69F00"), cex=1.3, bty="n", horiz=F)
+dev.off()
 ```
 
 # Fig. 6.
