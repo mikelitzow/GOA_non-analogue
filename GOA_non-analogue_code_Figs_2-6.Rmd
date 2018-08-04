@@ -30,7 +30,7 @@ library(broom)
 library(reshape2)
 ```
 
-# Figs. 2 and S1 
+# Figs. 2 and S2
 Nonstationary SLP variance.
 
 ```{r, echo=T}
@@ -166,9 +166,9 @@ mtext("SLPa standard deviation", adj=0.5, cex=0.8)
 
 dev.off()
 
-# and plot the spatial pattern as Fig. S1
+# and plot the spatial pattern as Fig. S2
 
-png("Fig S1.png", 8, 6, units="in", res=300)
+png("Fig S2.png", 8, 6, units="in", res=300)
 linex <- c(191, 191, 207, 207, 191)
 liney <- c(47, 57, 57, 47, 47)
 z <- sd.diff/100 # converting to hPa
