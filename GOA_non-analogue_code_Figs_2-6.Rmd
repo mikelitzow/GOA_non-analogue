@@ -976,8 +976,12 @@ models$dAICc <- models$AICc-min(models$AICc)
 
 # and calculate residual autocorrelation for the best analogue model
 
-mod <- lm(catch ~ SST, data=data) 
-dwtest(resid(mod) ~ 1)
+mod1 <- lm(catch ~ SST, data=data) 
+dwtest(resid(mod1) ~ 1)
+
+# and best non-analog model
+mod2 <- lm(catch ~ SST*era, data=data) 
+dwtest(resid(mod2) ~ 1)
 ```
 
 And plot Fig. 4
@@ -1006,11 +1010,12 @@ text(seq(0.5,9.9,by=1.25), -0.04,
 
 par(las=1)
 mtext("b", adj=0.11, line=-1, cex=1.2)
-mtext("Non-analog models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
-mtext("Analog models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
+mtext("Non-stationary models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
+mtext("Stationary models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
 
 par(mar=c(7,3,2,0.5))
-plot(data$year, resid(mod), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="")
+plot(data$year, resid(mod1), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="")
+lines(data$year, resid(mod2), type="o", pch=19, col="#56B4E9")
 abline(h=0)
 abline(v=1988.5, lty=2)
 mtext("c", adj=0.11, line=-1.5, cex=1.2)
