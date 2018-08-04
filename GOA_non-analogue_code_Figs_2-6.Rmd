@@ -1014,12 +1014,12 @@ mtext("Non-stationary models", col="#56B4E9", adj=0.15, line=0.6, outer=T)
 mtext("Stationary models", col="#D55E00", adj=0.135, line=-0.8, outer=T)
 
 par(mar=c(7,3,2,0.5))
-plot(data$year, resid(mod1), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="")
-lines(data$year, resid(mod2), type="o", pch=19, col="#56B4E9")
+plot(data$year, resid(mod1), type="o", pch=19, col="#D55E00", ylab="Residual", xlab="", ylim=c(-4,3))
+lines(data$year, resid(mod2), type="o", pch=21, col="#56B4E9", bg="white")
 abline(h=0)
-abline(v=1988.5, lty=2)
+lines(x=c(1988.5, 1988.5), y=c(-2,4), lty=2)
 mtext("c", adj=0.11, line=-1.5, cex=1.2)
-
+legend("bottomright", c("Stationary", "Non-stationary"), lty=c(1,1), col=c("#D55E00","#56B4E9"), pch=c(19,21), pt.bg="white", bty="n")
 dev.off()
 ```
 
