@@ -160,15 +160,15 @@ png("Fig 2.png",  0.6*11.4/2.54, 0.5*9.5/2.54, units="in", res=300)
 
 par(mar=c(1.5,3,1,1.5),  tcl=tc.l, mgp=c(1.5,0.3,0), las=1, mfrow=c(1,1), cex.axis=0.8, cex.lab=0.8, oma=c(0,0,0,0.2))
 
-plot(slp$dec.yr, slp$sm.sd/100, type="l", xlab="", ylab="hPa", col="red") # converted to hPa
+plot(slp$dec.yr, slp$sm.sd/100, type="l", xlab="", ylab="Standard deviation (hPa)", col="red") # converted to hPa
 abline(v=(1988+11.5/12), lty=2)
-mtext("SLPa standard deviation", adj=0.5, cex=0.8)
+
 
 dev.off()
 
-# and plot the spatial pattern as Fig. S2
+# and plot the spatial pattern as Fig. S4
 
-png("Fig S2.png", 8, 6, units="in", res=300)
+png("Fig S4.png", 8, 6, units="in", res=300)
 linex <- c(191, 191, 207, 207, 191)
 liney <- c(47, 57, 57, 47, 47)
 z <- sd.diff/100 # converting to hPa
