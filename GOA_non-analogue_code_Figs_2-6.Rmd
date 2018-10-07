@@ -1,5 +1,5 @@
 ---
-title: "Non-analogue states in Gulf of Alaska salmon production"
+title: "Non-stationary climate-salmon relationships in the Gulf of Alaska"
 output:
   pdf_document: default
   html_notebook: default
@@ -185,7 +185,7 @@ dev.off()
 ```
 
 # Fig. 3
-Non-analogue environmental dynamics in the GOA.
+Non-stationary environmental dynamics in the GOA.
 
 ```{r, echo=T}
 
@@ -875,7 +875,7 @@ dev.off()
 ```
 
 # Fig. 4.
-Comparison of analogue and non-analogue regression models for climate-salmon catch relationships.
+Comparison of stationart and non-stationary regression models for climate-salmon catch relationships.
 ```{r, echo=T}
 
 # will re-load SST data 
@@ -974,12 +974,12 @@ models <- arrange(models, AICc)
 
 models$dAICc <- models$AICc-min(models$AICc)
 
-# and calculate residual autocorrelation for the best analogue model
+# and calculate residual autocorrelation for the best stationary model
 
 mod1 <- lm(catch ~ SST, data=data) 
 dwtest(resid(mod1) ~ 1)
 
-# and best non-analog model
+# and best non-stationary model
 mod2 <- lm(catch ~ SST*era, data=data) 
 dwtest(resid(mod2) ~ 1)
 ```

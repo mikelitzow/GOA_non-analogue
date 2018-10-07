@@ -1,5 +1,5 @@
 ---
-title: "Non-analogue states in Gulf of Alaska salmon production"
+title: "Non-stationary climate-salmon relationships in the Gulf of Alaska"
 output:
   pdf_document: default
   html_notebook: default
