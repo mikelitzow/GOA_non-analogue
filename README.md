@@ -1,4 +1,4 @@
-# GOA_non-analogue
+# Non-stationary climate-salmon relationships
 
 ## Data accession details.
 
