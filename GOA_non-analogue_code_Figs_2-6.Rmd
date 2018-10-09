@@ -875,7 +875,7 @@ dev.off()
 ```
 
 # Fig. 4.
-Comparison of stationart and non-stationary regression models for climate-salmon catch relationships.
+Comparison of stationary and non-stationary regression models for climate-salmon catch relationships.
 ```{r, echo=T}
 
 # will re-load SST data 
@@ -1239,6 +1239,31 @@ And the p-value for the hatchery-subsidized areas.
 ```{r, echo=T}
 summary(hatch)$tTable
 ```
+
+Adding this - likelihood ratio tests for hatchery and wild models.
+
+```{r, echo=T}
+wild <-  lme(catch ~  sst.3*era, random = ~ sst.3 | group,   corAR1(form = ~year|group), data=st.wild, na.action=na.exclude, control=lmeControl(opt="optim"), method="ML") 
+
+wild.reduced <- lme(catch ~  sst.3 + era, random = ~ sst.3 | group,   corAR1(form = ~year|group), data=st.wild, na.action=na.exclude, control=lmeControl(opt="optim"), method="ML") 
+
+wild.out <- anova(wild, wild.reduced)
+wild.out
+# and get exact p-value
+wild.out[2,9]
+
+# now hatchery areas
+hatch <-  lme(catch ~  sst.3*era, random = ~ sst.3 | group,   corAR1(form = ~year|group), data=st.hatch, na.action=na.exclude, control=lmeControl(opt="optim"), method="ML") 
+
+hatch.reduced <- lme(catch ~  sst.3 + era, random = ~ sst.3 | group,   corAR1(form = ~year|group), data=st.hatch, na.action=na.exclude, control=lmeControl(opt="optim"), method="ML") 
+
+hatch.out <- anova(hatch, hatch.reduced)
+hatch.out
+# and get exact p-value
+hatch.out[2,9]
+
+```
+
 
 And now the spawner-recruit analysis. Begin by running the best model for each species, as earlier established by exhaustive model selection and residual examination.
 
