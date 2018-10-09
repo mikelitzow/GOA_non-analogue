@@ -341,19 +341,8 @@ Now plot the combined regression coefficients.
 ```{r, echo=T}
 
 # combine the regression coefficients for the two directions
-# this is no longer used, as we are plotting P values for the two directions separately in the SI
 regr.early.XY <- sqrt(regr.early.X^2 + regr.early.Y^2)
 regr.late.XY <- sqrt(regr.late.X^2 + regr.late.Y^2)
-
-# and combine p-vals
-# into separate incr(easing) and decr(easing) sets!
-p.both <- p.incr <- p.decr <- NA
-
-for(i in 1:length(X.pvals)){
-p.both[i] <- min(X.pvals[i], Y.pvals[i])
-p.incr[i] <- ifelse(regr.late.XY[i]  > regr.early.XY[i], p.both[i], 1)
-p.decr[i] <- ifelse(regr.late.XY[i]  < regr.early.XY[i], p.both[i], 1)
-}
 
 ```
 
