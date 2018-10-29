@@ -1525,9 +1525,9 @@ p.coef <- p.se <- p.p <- matrix(nrow=6, ncol=2)
 dimnames(p.coef) <- dimnames(p.se) <- dimnames(p.p) <- list(colnames(salm.cov)[2:7], c("65.88", "89.10"))
 
 # now we'll loop through the salmon covariates object
-for(i in 1:6){
+for(i in 1:6){ # found an error here...changing columns 1-6 to 2-7!
  
-  pink$covar <- salm.cov[match(pink$entry.yr, salm.cov$year),i]
+  pink$covar <- salm.cov[match(pink$entry.yr, salm.cov$year),(i+1)] # making the change to i to match columns here
   
   # pre-88/89
   mod <- lme(ln.recr ~ covar + full.stock:spawners + offset(log(spawners)), data=pink[pink$entry.yr <= 1988,], random = ~ covar | full.stock, control=lmeControl(opt="optim"),
@@ -1561,7 +1561,7 @@ dimnames(s.coef) <- dimnames(s.se) <- dimnames(s.p) <- list(colnames(salm.cov)[2
 # now loop through the salmon covariates object
 for(i in 1:6){
   # i <- 3
-  sock$covar <- salm.cov[match(sock$entry.yr, salm.cov$year),i]
+  sock$covar <- salm.cov[match(sock$entry.yr, salm.cov$year),(i+1)] # advancing i by 1 to match covariates columns
   
   # pre-88/89
   mod <- lme(ln.recr ~ covar + stock:spawners + offset(log(spawners)), data=sock[sock$entry.yr <= 1988,], random = ~ covar | stock, control=lmeControl(opt="optim"),
@@ -1596,7 +1596,7 @@ dimnames(c.coef) <- dimnames(c.se) <- dimnames(c.p) <- list(colnames(salm.cov)[2
 
 for(i in 1:6){
  
-  chum$covar <- salm.cov[match(chum$entry.yr, salm.cov$year),i]
+  chum$covar <- salm.cov[match(chum$entry.yr, salm.cov$year),(i+1)] # advancing i by 1 to match covariates columns
   
   # pre-88/89
   mod <- lme(ln.recr ~ covar + stock:spawners + offset(log(spawners)), data=chum[chum$entry.yr <= 1988,], random = ~ covar | stock, control=lmeControl(opt="optim"),
@@ -1621,7 +1621,7 @@ for(i in 1:6){
 p.vals <- data.frame(covar=rep(rownames(p.p), 3), species=c(rep("pink", nrow(p.p)), rep("sockeye", nrow(p.p)), rep("chum", nrow(p.p))))
 
 p.vals[,3:4]  <- rbind(p.p, s.p, c.p)
-names(p.vals)[3:4] <- c("p.65.88", "p.89.10")
+names(p.vals)[3:4] <- c("p.60.88", "p.89.10")
  
 # now! get adjusted alpha for the entire time series!
 # following the approach of Verhoeven et al. 2005 (Oikos)
@@ -1636,25 +1636,24 @@ all.p <- c(p.vals[,3], p.vals[,4])
  combine <- cbind(FDR.r, FDR.a)
  alpha <- max(combine[which(combine[,1]<=combine[,2]),1])
 
- means <- tapply(p.vals$p.65.88, p.vals$covar, mean)
- means <- means[order(means)]
+ means <- tapply(p.vals$p.60.88, p.vals$covar, mean) # average p-value for each covariate, across results for the 3 spp.
+ means <- means[order(means)] # order low to high
  
- this <- names(means)
+ this <- names(means) # save the covariates in this order
 
- p.vals$order <- rep(c(3,2,1,6,4,5),3)
+ p.vals$order <- rep(c(3,2,1,6,4,5),3) # a vector of order #s to match the order in "this"
 
  p.vals <- arrange(p.vals, order)
  
-  early <- tapply(p.vals$p.65.88,list(p.vals$covar, p.vals$species), mean)
+  early <- tapply(p.vals$p.60.88,list(p.vals$covar, p.vals$species), mean) # p values for early period
 
   # reorder to plot
-  early <- early[c(4,1,2,3,6,5),c(2,3,1)]
+  early <- early[c(4,3,5,1,6,2),c(2,3,1)]
   
   late <- tapply(p.vals$p.89.10,list(p.vals$covar, p.vals$species), mean)
 
   # reorder
-  late <- late[c(4,1,2,3,6,5),c(2,3,1)]
-  
+  late <- late[c(4,3,5,1,6,2),c(2,3,1)]
   # and plot
   pdf("Fig 6.pdf", 13/2.54,9/2.54)
   labs <- c("Salinity", "Freshwater", "SLP grad.", "Advection", "Wind stress", "Downwelling")
